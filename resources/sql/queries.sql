@@ -1,21 +1,21 @@
--- :name create-user! :! :n
+-- :name create-title_tag! :! :n
 -- :doc creates a new user record
-INSERT INTO users
-(id, first_name, last_name, email, pass)
-VALUES (:id, :first_name, :last_name, :email, :pass)
+INSERT INTO title_tag
+(title)
+VALUES (:text)
 
--- :name update-user! :! :n
+-- :name update-title_tag! :! :n
 -- :doc update an existing user record
-UPDATE users
-SET first_name = :first_name, last_name = :last_name, email = :email
+UPDATE title_tag
+SET title = :text
 WHERE id = :id
 
--- :name get-user :? :1
+-- :name get-title_tag :? :1
 -- :doc retrieve a user given the id.
-SELECT * FROM users
+SELECT * FROM title_tag
 WHERE id = :id
 
--- :name delete-user! :! :n
+-- :name delete-title_tag! :! :n
 -- :doc delete a user given the id
-DELETE FROM users
+DELETE FROM title_tag
 WHERE id = :id

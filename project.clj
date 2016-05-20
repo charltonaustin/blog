@@ -35,8 +35,10 @@
   :resource-paths ["resources"]
 
   :main blog.core
+  :migratus {:store :database :db ~(get (System/getenv) "DATABASE_URL")}
 
-  :plugins [[lein-cprop "1.0.1"]]
+  :plugins [[lein-cprop "1.0.1"]
+            [migratus-lein "0.3.1"]]
   :target-path "target/%s/"
   :profiles
   {:uberjar {:omit-source true
@@ -61,4 +63,5 @@
                                (pjstadig.humane-test-output/activate!)]}
    :project/test {:resource-paths ["env/dev/resources" "env/test/resources"]}
    :profiles/dev {}
-   :profiles/test {}})
+   :profiles/test {}
+   })

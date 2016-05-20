@@ -1,6 +1,7 @@
 (ns blog.core
   (:require [blog.handler :as handler]
             [luminus.repl-server :as repl]
+            [luminus-migrations.core :as migrations]
             [luminus.http-server :as http]
             [blog.config :refer [env]]
             [clojure.tools.cli :refer [parse-opts]]
@@ -50,4 +51,11 @@
   (.addShutdownHook (Runtime/getRuntime) (Thread. stop-app)))
 
 (defn -main [& args]
-  (start-app args))
+  (cond
+    (some #{"migrate" "rollback"} args)
+    (do
+      (mount/start #'blog.config/env)
+      (migrations/migrate args (env :database-url))
+      (System/exit 0))
+    :else
+  (start-app args)))

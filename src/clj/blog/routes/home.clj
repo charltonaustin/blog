@@ -6,11 +6,12 @@
 
 (defn home-page []
   (layout/render
-   "home.html" { :docs (-> "docs/docs.md" io/resource slurp)
-                 :home-active "active"}))
+   "home.html" {:home-active "active"
+                :title-tag "Charlton Austin's Blog Technical Dazed And Confused Home Page"}))
 
 (defn about-page []
-  (layout/render "about.html" {:about-active "active"}))
+  (layout/render "about.html" {:about-active "active"
+                               :title-tag "Charlton Austin's Blog Technical Dazed And Confused About Page"}))
 
 (defroutes home-routes
   (GET "/" [] (home-page))
