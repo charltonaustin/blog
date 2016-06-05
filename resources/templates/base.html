@@ -5,14 +5,15 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
-    <meta name="description" content="">
+    <meta name="description" content={{description-tag}}>
     <meta name="author" content="">
 
     <title>{{title-tag}}</title>
   
     <!-- styles -->
-    {% style "/assets/bootstrap/css/bootstrap.min.css" %}
+    {% style "/css/bootstrap.min.css" %}
     {% style "/css/blog.css" %}
+    {% style "/css/highlight/default.css" %}
     
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
@@ -31,13 +32,17 @@
       </div>
     </div>
     <div class="container">
+      
       {% block content %}
       {% endblock %}
+      
     </div>
 
     <!-- scripts -->
-    {% script "/assets/bootstrap/js/bootstrap.min.js" %}
+    {% script "/js/bootstrap.min.js" %}
     {% script "https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js" %}
+    {% script "/js/highlight.pack.js" %}
+    <script>hljs.initHighlightingOnLoad();</script>
     <script>window.jQuery || document.write('<script src="./js/vendor/jquery.min.js"><\/script>')</script>
     <script type="text/javascript">
       var context = "{{servlet-context}}";

@@ -1,78 +1,11 @@
 <div class="col-sm-8 blog-main">
-  <div class="blog-post">
-    <p>keywords: acceptance testing, cucumber, frank-cucumber, functional testing, iOS, qa, ruby</p>
-    <h2 class="blog-post-title">Frank-cucumber</h2>
-    <p class="blog-post-meta">Feb. 24, 2013 <a href="/about">Charlton Austin</a></p>
-    <p>
-      Starting my blog again. So my blog has hopelessly become out of date. Since the last time I posted I've started working for ThoughtWorks, gone to India, moved to San Francisco, and finally been put onto my client. Great so now what. Since things are finally starting to settle and since my thoughts have changed on maintaining a blog I've decided it's time to start blogging again. Not that anyone has read anything yet. My goal is to do it once or twice a week depending on time constraints and travel. So lets get started.
-    </p>
-    <p>
-      For my first post back I'm going to talk about frank-cucumber which is a ruby gem maintained by a co-worker of mine. Recently I got a chance to see a sneak peak to a presentation that Pete Hodgson is going to be giving over the importance of iOS user acceptance testing at mdevcon.
-    </p>
-    <p>
-      This is a short tutorial on how to set up a frank-cucumber project over a working iOS app.
-    </p>
-    <h5>
-      Things you are going to need (or I expect to be installed):
-    </h5>
-    <ul>
-      <li>Ruby 1.9.x  (I would suggest using rvm. Here is a post to help with the install)</li>
-      <li>xcode </li>
-      <li>the  xcode command line tools</li>
-      <li>svn</li>
-    </ul>
-    <p>
-      First I would like to say that I've actually done very little iOS programming myself. Mostly I've been doing Java programming for work these days (with a healthy mix of Chef/Cucumber/Gradle/MongoDB/Knockout.js and a couple of other technologies) while learning Scala on the side. That said the presentation was fantastic and I learned a couple of things which I would like to talk about.
-      If you go to the frank-cucumber homepage you will see that frank is a way to execute cucumber tests against an iOS app. Now what does this mean.
-    </p>
-    <p>
-      First we are going to need an iOS app to work with. 
-    </p>
-    <pre><code>$:svn checkout http://countitout.googlecode.com/svn/trunk/ countitout-read-only</code></pre>
-    <p>Now cd into the directory.</p>
-    <pre><code>$:cd countitout-read-only/</code></pre>
-    <p>Next you want to install frank and cucumber.</p>
-    <pre><code>$:gem install frank-cucumber<br/>$:gem install cucumber
-    </code></pre>
-    <p>Then you need to run frank build to create a frank structure for your iOS app.</p>
-    <pre><code>$:frank build</code></pre>
-    <p>This should create the basic frank structure. Next to get the app running with frank simple run frank launch. Now you have an instance with frank running with it, but even better is to use something like frank inspect. This brings up a webpage with symbiote and chance for you to see elements in which you can select on in your cucumber tests.</p>
-    <pre><code>$:frank inspect</code></pre>
-    <p>Finally if you would like to see the a basic set of tests run then run cucumber (close down the iOS Simulator first).</p>
-    <pre><code>$:cucumber Frank/features</code></pre>
-    <p>Now you are ready to start exploring cucumber testing for your iOS app.</p>
-    <!-- /.blog-post -->  
-    <div class="blog-post">
-      <h2 class="blog-post-title">Another blog post</h2>
-      <p class="blog-post-meta">December 23, 2013 by <a href="/about">Jacob</a></p>
-
-      <p>Cum sociis natoque penatibus et magnis <a href="#">dis parturient montes</a>, nascetur ridiculus mus. Aenean eu leo quam. Pellentesque ornare sem lacinia quam venenatis vestibulum. Sed posuere consectetur est at lobortis. Cras mattis consectetur purus sit amet fermentum.</p>
-      <blockquote>
-        <p>Curabitur blandit tempus porttitor. <strong>Nullam quis risus eget urna mollis</strong> ornare vel eu leo. Nullam id dolor id nibh ultricies vehicula ut id elit.</p>
-      </blockquote>
-      <p>Etiam porta <em>sem malesuada magna</em> mollis euismod. Cras mattis consectetur purus sit amet fermentum. Aenean lacinia bibendum nulla sed consectetur.</p>
-      <p>Vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor auctor. Duis mollis, est non commodo luctus, nisi erat porttitor ligula, eget lacinia odio sem nec elit. Morbi leo risus, porta ac consectetur ac, vestibulum at eros.</p>
-    </div><!-- /.blog-post -->
-
-    <div class="blog-post">
-      <h2 class="blog-post-title">New feature</h2>
-      <p class="blog-post-meta">December 14, 2013 by <a href="#">Chris</a></p>
-
-      <p>Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Aenean lacinia bibendum nulla sed consectetur. Etiam porta sem malesuada magna mollis euismod. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus.</p>
-      <ul>
-        <li>Praesent commodo cursus magna, vel scelerisque nisl consectetur et.</li>
-        <li>Donec id elit non mi porta gravida at eget metus.</li>
-        <li>Nulla vitae elit libero, a pharetra augue.</li>
-      </ul>
-      <p>Etiam porta <em>sem malesuada magna</em> mollis euismod. Cras mattis consectetur purus sit amet fermentum. Aenean lacinia bibendum nulla sed consectetur.</p>
-      <p>Donec ullamcorper nulla non metus auctor fringilla. Nulla vitae elit libero, a pharetra augue.</p>
-
-    </div><!-- /.blog-post -->
-    <nav>
-      <ul class="pager">
-        <li><a href="#">Previous</a></li>
-        <li><a href="#">Next</a></li>
-      </ul>
-    </nav>
-  </div>
+  {% for item in blog-posts-with-content %}
+  <div class="{{ single? }}blog-post">
+    <h2 class="blog-post-title">{{item.name}}</h2>
+    <p class="blog-post-meta">{{item.publish-date|date:"MMM dd, yyyy"}} by <a href="/about">Charlton Austin</a></p>
+    {{item.content|markdown}}
+  </div><!-- /.blog-post -->
+  {% endfor %}
+  {% include "pager.html" %}
 </div><!-- /.blog-main -->
+
