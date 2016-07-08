@@ -16,12 +16,7 @@
             PreparedStatement]))
 
 (defstate ^:dynamic *db*
-          :start (conman/connect!
-                   {:init-size  1
-                    :min-idle   1
-                    :max-idle   4
-                    :max-active 32
-                    :jdbc-url   (env :database-url)})
+          :start ()
           :stop (conman/disconnect! *db*))
 
 (conman/bind-connection *db* "sql/queries.sql")

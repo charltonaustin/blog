@@ -9,51 +9,52 @@
                                        content-for 
                                        parse-year-month]]))
 
-(def blog-posts (get-published-files))
-(def archive-links  
-  (into [] (into (sorted-set) (map #(:archive-date %) blog-posts))))
+
+(defn get-archive-links [] 
+  (into [] (into (sorted-set) (map #(:archive-date %) (get-published-files))))
+)
 
 (defn home-page []
-  (let [first-three (take 3 blog-posts)
+  (let [first-three (take 3 (get-published-files))
         with-content (map #(assoc % :content (content-for (:location %))) first-three)]
     (layout/render
      "home.html" 
      {:home-active "active"
       :title-tag "Charlton Austin's Blog Technical Dazed And Confused Home Page"
       :blog-posts-with-content with-content
-      :next (:url (nth blog-posts 4))
+      :next (:url (nth (get-published-files) 4))
       :previous "/"
-      :archive-links archive-links })))
+      :archive-links (get-archive-links) })))
 
 
 (defn blog-post [year month day blog-post-name]
   (let [name (get-name blog-post-name)
-        filtered (filter #(= (:name %) name) blog-posts)
+        filtered (filter #(= (:name %) name) (get-published-files))
         with-content (map #(assoc % :content (content-for (:location %))) filtered)] 
     (layout/render 
      "home.html" 
      {:title-tag (str "Charlton's Blog Post About: " name)
       :blog-posts-with-content with-content
       :single? "single-"
-      :next (get (nth blog-posts (+ 1 (:index (first filtered))) {}) :url "/")
-      :previous (get (nth blog-posts (- (:index (first filtered)) 1) {}) :url "/")
-      :archive-links archive-links })))
+      :next (get (nth (get-published-files) (+ 1 (:index (first filtered))) {}) :url "/")
+      :previous (get (nth (get-published-files) (- (:index (first filtered)) 1) {}) :url "/")
+      :archive-links (get-archive-links) })))
 
 (defn archive-posts [year month]
   (let [url (str "/" year "/" month)
         filtered 
         (filter 
          #(= (.format (java.text.SimpleDateFormat. "/yyyy/M") (:archive-date %)) url) 
-         blog-posts)
-        url-index (.indexOf (map #(:url %) archive-links) url)
+         (get-published-files))
+        url-index (.indexOf (map #(:url %) (get-archive-links)) url)
         with-content (map #(assoc % :content (content-for (:location %))) filtered)]
     (layout/render 
      "home.html"
      {:title-tag (str "Charlton's Archive of Blog Posts from: " year "/" month)
       :blog-posts-with-content with-content
-      :next (:url (nth archive-links (+ 1 url-index) "/"))
-      :previous (:url (nth archive-links (- url-index 1) "/"))
-      :archive-links archive-links})))
+      :next (:url (nth (get-archive-links) (+ 1 url-index) "/"))
+      :previous (:url (nth (get-archive-links) (- url-index 1) "/"))
+      :archive-links (get-archive-links)})))
 
 (defn about-page []
   (layout/render 

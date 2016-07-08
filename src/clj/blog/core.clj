@@ -54,7 +54,7 @@
   (cond
     (some #{"migrate" "rollback"} args)
     (do
-      (mount/start #'blog.config/env)
+      (mount/start #'blog.config/env) 
       (migrations/migrate args (env :database-url))
       (System/exit 0))
     :else

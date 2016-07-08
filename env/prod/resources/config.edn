@@ -1,2 +1,4 @@
 {:production true
- :port 3000}
+ :port 3000
+ :blog-posts "/home/charlie/blog-entries/published/"
+}

@@ -1,14 +1,18 @@
 (ns blog.helpers.core
   (:require [clojure.java.io :as io]
-            [clojure.string :as str]))
+	    [blog.config :refer [env]]
+            [clojure.string :as str]
+            [mount.core :as mount]
+))
 
+(mount/start #'blog.config/env) 
 
 (defn get-file-locations []
-  (->> (io/file "resources/published/")
+  (->> (io/file (env :blog-posts))
        (file-seq)
        (map #(.getPath %))
        (filter #(re-find #"\.md" %))
-       (map #(str/replace-first % #"resources/" ""))
+       (map #(str/replace-first % "" ""))
        (sort)
        (reverse)
        ))
@@ -20,7 +24,7 @@
 
 (defn get-name [file-location] 
   (-> file-location
-       (str/replace-first #"published/" "")
+       (str/replace-first (env :blog-posts) "")
        (str/replace-first #".md" "")
        (str/replace  #"-" " ")
        (str/replace #"\d+/\d+/\d+/" "")
@@ -54,11 +58,11 @@
 
 (defn get-url [file-location]
   (-> file-location
-      (str/replace-first #"published" "")
+      (str/replace-first (env :blog-posts) "")
       (str/replace-first #".md" "")))
 
 (defn content-for [name]
-  (-> name io/resource slurp))
+  (-> name slurp))
 
 (defn get-published-files []
   (let [file-locations (get-file-locations)]
