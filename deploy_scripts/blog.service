@@ -1,0 +1,14 @@
+[Unit]
+Description=My blog application
+After=network.target
+
+[Service]
+WorkingDirectory=/var/blog
+EnvironmentFile=-/var/blog/env
+Environment="DATABASE_URL=jdbc:postgresql://localhost/app?user=app_user&password=secret"
+ExecStart=/usr/bin/java -jar /var/blog/blog.jar
+User=deploy
+
+[Install]
+WantedBy=multi-user.target
+

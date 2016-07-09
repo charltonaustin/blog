@@ -64,6 +64,9 @@
 (defn content-for [name]
   (-> name slurp))
 
+(defn about-page-content []
+  (slurp (str (env :blog-posts) "../about.md")))
+
 (defn get-published-files []
   (let [file-locations (get-file-locations)]
     (->> file-locations

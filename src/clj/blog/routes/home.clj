@@ -7,7 +7,8 @@
             [blog.helpers.core :refer [get-published-files 
                                        get-name 
                                        content-for 
-                                       parse-year-month]]))
+                                       parse-year-month
+                                       about-page-content]]))
 
 
 (defn get-archive-links [] 
@@ -60,7 +61,8 @@
   (layout/render 
    "about.html" 
    {:about-active "active"
-    :title-tag (:title "Charlton Austin's Blog Technical Dazed And Confused About Page")}))
+    :title-tag (:title "Charlton Austin's Blog Technical Dazed And Confused About Page")
+    :content (about-page-content)}))
 
 (defroutes home-routes
   (GET "/" [] (home-page))
