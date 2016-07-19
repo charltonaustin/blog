@@ -12,8 +12,7 @@
 
 
 (defn get-archive-links [] 
-  (into [] (into (sorted-set) (map #(:archive-date %) (get-published-files))))
-)
+  (into [] (into (sorted-set) (map #(:archive-date %) (get-published-files)))))
 
 (defn home-page []
   (let [first-three (take 3 (get-published-files))
