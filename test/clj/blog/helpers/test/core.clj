@@ -38,4 +38,11 @@
   (testing "get-name"
     (let [actual (get-name (first just-file-locations))]
       (is (= actual "Quitting Finance And Trying To Give Back"))))
+  
+  (testing "parse-date"
+    (let [actual (.format 
+                  (java.text.SimpleDateFormat. "dd.MM.yyyy") 
+                  (parse-date "1988/01/23"))]
+      (is (= actual "23.01.1988"))))
+
 )
