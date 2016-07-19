@@ -50,4 +50,15 @@
                   (java.text.SimpleDateFormat. "dd.MM.yyyy")
                   (get-archive-date (first just-file-locations)))]
       (is (= actual "01.05.2016"))))
+
+  (testing "get-url"
+    (with-redefs [blog.helpers.core/read-paths-from-drive get-list-of-file-names]
+      (let [actual (first (get-published-files))]
+        (is (= (:location actual) "/home/charlie/dev/clojure/blog-entries/published/2016/5/10/quitting-finance-and-trying-to-give-back.md"))
+        (is (= (:index actual) 0))
+        (is (contains? actual :archive-date))
+        (is (contains? actual :url))
+        (is (contains? actual :publish-date))
+        (is (contains? actual :name))
+)))
 )
