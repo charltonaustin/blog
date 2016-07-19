@@ -7,10 +7,13 @@
 
 (mount/start #'blog.config/env) 
 
-(defn get-file-locations []
+(defn read-paths-from-drive []
   (->> (io/file (env :blog-posts))
        (file-seq)
-       (map #(.getPath %))
+       (map #(.getPath %))))
+
+(defn get-file-locations [paths]
+  (->> paths
        (filter #(re-find #"\.md" %))
        (map #(str/replace-first % "" ""))
        (sort)
@@ -68,7 +71,7 @@
   (slurp (str (env :blog-posts) "../about.md")))
 
 (defn get-published-files []
-  (let [file-locations (get-file-locations)]
+  (let [file-locations (get-file-locations (read-paths-from-drive))]
     (->> file-locations
          (map #(assoc {} :location %))
          (map #(assoc % :name (get-name (:location %))))
