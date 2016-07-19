@@ -59,6 +59,5 @@
         (is (contains? actual :archive-date))
         (is (contains? actual :url))
         (is (contains? actual :publish-date))
-        (is (contains? actual :name))
-)))
+        (is (contains? actual :name)))))
 )
