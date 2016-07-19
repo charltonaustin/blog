@@ -45,4 +45,9 @@
                   (get-date (first just-file-locations)))]
       (is (= actual "10.05.2016"))))
 
+  (testing "get-archive-date"
+    (let [actual (.format
+                  (java.text.SimpleDateFormat. "dd.MM.yyyy")
+                  (get-archive-date (first just-file-locations)))]
+      (is (= actual "01.05.2016"))))
 )
