@@ -61,7 +61,7 @@
 
 (defn get-url [file-location]
   (-> file-location
-      (str/replace-first (env :blog-posts) "")
+      (str/replace-first (env :blog-posts) "/")
       (str/replace-first #".md" "")))
 
 (defn content-for [name]

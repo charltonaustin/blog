@@ -40,20 +40,25 @@
       :previous (get (nth (get-published-files) (- (:index (first filtered)) 1) {}) :url "/")
       :archive-links (get-archive-links) })))
 
+(defn format-date [date]
+  (if (= (type date) java.util.Date)
+    (.format (java.text.SimpleDateFormat. "/yyyy/M") date)
+    date))
+
 (defn archive-posts [year month]
   (let [url (str "/" year "/" month)
         filtered 
         (filter 
-         #(= (.format (java.text.SimpleDateFormat. "/yyyy/M") (:archive-date %)) url) 
+         #(= (format-date (:archive-date %)) url) 
          (get-published-files))
-        url-index (.indexOf (map #(:url %) (get-archive-links)) url)
+        url-index (.indexOf (map #(format-date %) (get-archive-links)) url)
         with-content (map #(assoc % :content (content-for (:location %))) filtered)]
     (layout/render 
      "home.html"
      {:title-tag (str "Charlton's Archive of Blog Posts from: " year "/" month)
       :blog-posts-with-content with-content
-      :next (:url (nth (get-archive-links) (+ 1 url-index) "/"))
-      :previous (:url (nth (get-archive-links) (- url-index 1) "/"))
+      :next (format-date (nth (get-archive-links) (+ 1 url-index) "/")) 
+      :previous (format-date (nth (get-archive-links) (- url-index 1) "/"))
       :archive-links (get-archive-links)})))
 
 (defn about-page []
