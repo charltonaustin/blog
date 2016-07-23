@@ -3,5 +3,6 @@
  ;; when :nrepl-port is set the application starts the nREPL server on load
  :nrepl-port 7000
  :blog-posts "/home/charlie/dev/clojure/blog-entries/published/"
+ :database-url "jdbc:postgresql://localhost/blog?user=dbuser&password=please_let_me_hide"
 }
 

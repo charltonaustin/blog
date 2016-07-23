@@ -8,7 +8,8 @@
             [blog.config :refer [env]]
             [ring.middleware.flash :refer [wrap-flash]]
             [immutant.web.middleware :refer [wrap-session]]
-            [ring.middleware.defaults :refer [site-defaults wrap-defaults]])
+            [ring.middleware.defaults :refer [site-defaults wrap-defaults]]
+            [blog.db.core :refer [create-visit!]])
   (:import [javax.servlet ServletContext]))
 
 (defn wrap-context [handler]
@@ -36,6 +37,15 @@
                      :title "Something very bad has happened!"
                      :message "We've dispatched a team of highly trained gnomes to take care of the problem."})))))
 
+(defn count-request [handler]
+  (fn [req] 
+    (create-visit! {:route (:uri req), 
+                    :host (:server-name req), 
+                    :user_agent (get (:headers req) "user-agent"), 
+                    :origin (get (:headers req) "referer")
+                    :remote_addr (:remote-addr req)})
+    (handler req)))
+
 (defn wrap-csrf [handler]
   (wrap-anti-forgery
     handler
@@ -62,5 +72,6 @@
             (assoc-in [:security :anti-forgery] false)
             (dissoc :session)))
       wrap-webjars
+      count-request
       wrap-context
       wrap-internal-error))

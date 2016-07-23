@@ -12,17 +12,18 @@
      :publish-date (new java.util.Date) 
      :url "/some/location/file"
      :archive-date (new java.util.Date)
-     :inde 3
-     }))
+     :index 3}))
 
 (deftest test-app
   (testing "main route"
     (with-redefs [blog.helpers.core/content-for content-for-stub 
-                  blog.helpers.core/get-published-files get-published-files-stub]
+                  blog.helpers.core/get-published-files get-published-files-stub
+                  blog.db.core/create-visit! (fn [& more] )]
       (let [response ((app) (request :get "/"))]
         #(is (= 200  (:status response)))
         #(is (= (:body response) "some great content")))))
 
   (testing "not-found route"
-    (let [response ((app) (request :get "/invalid"))]
-      (is (= 404 (:status response))))))
+    (with-redefs [blog.db.core/create-visit! (fn [& more])]
+      (let [response ((app) (request :get "/invalid"))]
+        (is (= 404 (:status response)))))))
