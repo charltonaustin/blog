@@ -1,4 +1,4 @@
-(ns blog.helpers.test.core
+(ns blog.helpers.core-test
   (:require [clojure.test :refer :all]
             [blog.helpers.core :refer :all]))
 (defn get-list-of-file-names []
