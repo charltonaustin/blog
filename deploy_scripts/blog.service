@@ -5,7 +5,7 @@ After=network.target
 [Service]
 WorkingDirectory=/var/blog
 EnvironmentFile=-/var/blog/env
-Environment="DATABASE_URL=jdbc:postgresql://localhost/app?user=app_user&password=secret"
+Environment="DATABASE_URL=jdbc:postgresql://localhost/app?user=dbuser&password=$PASSWORD"
 ExecStart=/usr/bin/java -jar /var/blog/blog.jar
 User=deploy
 
