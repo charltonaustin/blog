@@ -15,10 +15,11 @@
 
 (deftest test-app
   (testing "main route"
-    (with-redefs-fn {#'blog.helpers.core/content-for content-for-stub 
-                     #'blog.helpers.core/get-published-files get-published-files-stub}
+    (with-redefs [blog.helpers.core/content-for content-for-stub 
+                  blog.helpers.core/get-published-files get-published-files-stub]
       (let [response ((app) (request :get "/"))]
-        #(is (= 200  (:status response))))))
+        #(is (= 200  (:status response)))
+        #(is (= (:body response) "some great content")))))
 
   (testing "not-found route"
     (let [response ((app) (request :get "/invalid"))]
