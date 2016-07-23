@@ -2,8 +2,10 @@
   (:require [clojure.test :refer :all]
             [ring.mock.request :refer :all]
             [blog.handler :refer :all]))
+
 (defn content-for-stub []
   "some great content")
+
 (defn get-published-files-stub []
   '({:location "/some/location/file.md" 
      :name "File" 
