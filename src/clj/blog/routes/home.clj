@@ -4,6 +4,7 @@
             [compojure.core :refer [defroutes GET]]
             [ring.util.http-response :as response]
             [clojure.java.io :as io]
+            [clojure.string :as str]
             [blog.helpers.core :refer [get-published-files 
                                        get-name 
                                        content-for 
@@ -21,6 +22,7 @@
      "home.html" 
      {:home-active "active"
       :title-tag "Charlton Austin's Blog Technical Dazed And Confused Home Page"
+      :description-tag "The landing page for my blog. It contains the three latest blog posts that I have written."
       :blog-posts-with-content with-content
       :next (:url (nth (get-published-files) 4))
       :previous "/"
@@ -35,6 +37,7 @@
      "home.html" 
      {:title-tag (str "Charlton's Blog Post About: " name)
       :blog-posts-with-content with-content
+      :description-tag (first (str/split (:content (first with-content)) #"\."))
       :single? "single-"
       :next (get (nth (get-published-files) (+ 1 (:index (first filtered))) {}) :url "/")
       :previous (get (nth (get-published-files) (- (:index (first filtered)) 1) {}) :url "/")
@@ -65,6 +68,7 @@
   (layout/render 
    "about.html" 
    {:about-active "active"
+    :description-tag "A page describin who I am and what I'm doing with this blog."
     :title-tag (:title "Charlton Austin's Blog Technical Dazed And Confused About Page")
     :content (about-page-content)}))
 
