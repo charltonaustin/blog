@@ -24,7 +24,7 @@
       :title-tag "Charlton Austin's Blog Technical Dazed And Confused Home Page"
       :description-tag "The landing page for my blog. It contains the three latest blog posts that I have written."
       :blog-posts-with-content with-content
-      :next (:url (nth (get-published-files) 4))
+      :next (:url (nth (get-published-files) 3))
       :previous "/"
       :archive-links (get-archive-links) })))
 
