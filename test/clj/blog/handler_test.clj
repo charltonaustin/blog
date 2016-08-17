@@ -7,16 +7,16 @@
   "some great content")
 
 (defn get-published-files-stub []
-  '({:location "/some/location/file.md" 
-     :name "File" 
-     :publish-date (new java.util.Date) 
+  '({:location "/some/location/file.md"
+     :name "File"
+     :publish-date (new java.util.Date)
      :url "/some/location/file"
      :archive-date (new java.util.Date)
      :index 3}))
 
 (deftest test-app
   (testing "main route"
-    (with-redefs [blog.helpers.core/content-for content-for-stub 
+    (with-redefs [blog.helpers.core/content-for content-for-stub
                   blog.helpers.core/get-published-files get-published-files-stub
                   blog.db.core/create-visit! (fn [& more] )]
       (let [response ((app) (request :get "/"))]
